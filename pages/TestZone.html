@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duck Hunt</title>
+    <style>
+  
+      #playground {
+        width: 800px;
+        height: 800px;
+        margin: 50px auto;
+        border: 1px dashed black;
+        border-radius: 10px;
+        /* Because duck will use Position absolute */
+        position: relative;
+        overflow: hidden;
+      }
+
+      #duck {
+        background-color: green;
+        width: 10%;
+        height: 10%;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+      }
+
+      #duck:hover{cursor: crosshair;}
+
+      #restart {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 50px;
+        text-align: center;
+        background-color: rgba(128, 128, 128, 0.8);
+        z-index: 1;
+        display: none;
+      }
+      #playerDuck, #playerHunter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;        
+        border-radius: 10px;
+        width:40%;        
+      }
+      
+      #players {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap:5%;
+      }
+      button {
+        margin:20px 46%;
+      }
+  
+    </style>
+  </head>
+  <body>
+    <div id="restart">
+      <h1>RESTART</h1>
+      <h2>Keyboard : <span id="scoreK"></span></h2>
+      <h2>Mouse : <span id="scoreM"></span></h2>
+    </div>
+    <main>
+      <button onclick="reloadPage()">New Game</button>
+      <section id="players">
+        <div id="playerDuck" style='border: 2px solid green;'>
+          <h1 style='color: green'>Duck</h1>
+          <h2> </h2>
+          <p>Score</p>
+        </div>
+        <div id="playerHunter" style="border: 2px solid brown">
+          <h1 style='color: brown'>Hunter</h1>
+          <h2> </h2>
+          <p>Score</p>
+        </div>
+      </section>
+    </main>
+    <section id="playground">
+      <article id="duck">>o)<br />(_></article>
+    </section>
+
+    <script>
+      const matchMax=5;
+      const scoreDuck=3;
+      const scoreHunter=2;
+      document.querySelector("#playerDuck p").innerText=scoreDuck;
+      document.querySelector("#playerHunter p").innerText=scoreHunter;
+      
+      function inputNames(){
+      const nameDuck=prompt("The first player (the duck) is ...");
+      document.querySelector("#playerDuck h2").innerText=nameDuck;
+      const nameHunter=prompt("The second player (the Hunter) is ...");
+      document.querySelector("#playerHunter h2").innerText=nameHunter;
+      }     
+    
+      function reloadPage() {
+        document.querySelector("#playerDuck h2").innerText="";
+        document.querySelector("#playerHunter h2").innerText="";
+        inputNames();
+      }
+
+      // High Level breakdown / toughts :
+      // I need: a duck, score for mouse, score for keyboard,
+      // when it arrives to the bottum to appear on top
+      // mouse win condition : when I HIT with the mouse
+      // move with duck with keyboard
+      // duck win condition : Escape time to give points to the keyboard
+      // Game Over
+      // Restart
+
+      // When I click on the duck, the duck dies ...
+
+      //Definition
+
+      //Call
+
+      // when I press a key on the website, the duck moves
+      // The duck move to the bottom when I press the down arrow
+
+      // win condition for the duck
+    </script>
+    <script src="../scripts/hunter.js"></script>
+  </body>
+</html>

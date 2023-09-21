@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duck Hunt</title>
+    <style>
+      body {
+        background-color: grey;
+      }
+      #playground {
+        background-image: url("images/sea1.jpg");
+        background-size: cover;
+        width: 800px;
+        height: 800px;
+        margin: 0 auto 50px;
+        border: 1px dashed black;
+        border-radius: 10px;
+        /* Because duck will use Position absolute */
+        position: relative;
+        overflow: hidden;
+      }
+
+      #duck {
+        background-image: url("images/duck.jpg");
+        background-size: cover;
+        background-position: center;
+        width: 10%;
+        height: 10%;
+        border-radius: 10px;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+      }
+
+      #duck:hover{cursor: crosshair;}
+
+      #playerDuck,
+      #playerHunter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        width: 200px;
+        background-color: white;
+      }
+
+      #players {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5%;
+      }
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      button {
+        padding:10px 50px;
+        margin:20px auto;
+        box-shadow: 1px 1px 2px black;
+      }
+      p{
+        font-size: 40px;
+      }
+      h1,h2,p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <main>
+      <!-- New game button, launches the naming process -->
+      <button id="newgame">New Game</button>
+
+      <!-- Player score section -->
+
+
+      <section id="players">
+        <!-- Duck Score -->
+        <div id="playerDuck" style="border: 2px solid green">
+          <h1 style="color: green">Duck</h1>
+          <h2> </h2>
+          <p>score</p>
+        </div>
+        <!-- Hunter Score -->
+        <div id="playerHunter" style="border: 2px solid brown">
+          <h1 style="color: brown">Hunter</h1>
+          <h2> </h2>
+          <p>score</p>
+        </div>
+      </section>
+
+      <!-- Start Round button, starts the first round and restarts the game after each round -->
+      <button id="startRound">Start Round</button>
+    </main>
+
+    <!-- Playing area -->
+    <section id="playground">
+      <article id="duck"></article>
+    </section>
+
+    <script src="scripts/scripy.js"></script>
+  </body>
+</html>
