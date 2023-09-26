@@ -1,174 +1,212 @@
-    const theDuck = document.querySelector("#duck");
-      var up = 10;
-      var left = 10;
-      var scoreDuck = 0;
-      var scoreHunter = 0;
-      var matchCount = 0;
-      var myTimer;
-      var emptyName=true;
-      let moveTimer = setInterval(moveDuckRandom, 200);
-      clearInterval(moveTimer);
+const theDuck = document.querySelector("#duck");
+var up = 10;
+var left = 10;
+var scoreDuck = 0;
+var scoreHunter = 0;
+var matchCount = 0;
+var myTimer;
+var emptyName = true;
+var moveTimer;
+var stepTimer;
+var move = true;
 
-      moveDuckRandom();
-      document.querySelector("#newgame").addEventListener("click", newGame);
-      document.querySelector("#startRound").addEventListener("click", startRound);
+//names of players
+function inputNames() {
+  const nameDuck = prompt("The first player (the duck) is ...");
+  const nameHunter = prompt("The second player (the Hunter) is ...");
+  if (nameDuck == "") {
+    document.querySelector("#playerDuck h2").innerText = "computer";
+  } else {
+    document.querySelector("#playerDuck h2").innerText = nameDuck;
+    emptyName = false;
+  }
+  document.querySelector("#playerHunter h2").innerText = nameHunter;
+  document.querySelector("#playerHunter p").innerText = 0;
+  document.querySelector("#playerDuck p").innerText = 0;
+}
 
-      //New Game - with new players
-      function newGame() {
-        document.querySelector("#playerDuck h2").innerText = "";
-        document.querySelector("#playerHunter h2").innerText = "";
-        document.querySelector("#playerDuck p").innerText = "score";
-        document.querySelector("#playerHunter p").innerText = "score";
-        inputNames();
-      }
+document.querySelector("#newgame").addEventListener("click", newGame);
+document.querySelector("#startRound").addEventListener("click", startRound);
 
-      //Starts the first ROUND and
-      //Restart  round of game (ONE of FIVE)
-      function startRound() {
-        document.querySelector("#duck").style.border="0 solid red";
-        matchCount=scoreDuck+scoreHunter;
-        if ((matchCount<5)&&(scoreDuck!=3)&&(scoreHunter!=3)) {
-          console.log(emptyName);
-          if(emptyName) {
-            console.log(1);
-            moveTimer = setInterval(moveDuckRandom, 200);
-          } else {
-            console.log(2);
-            enablePlayers();
-          myTimer = setTimeout(duckVictory, 3000);
-          theDuck.style.backgroundColor = "green";
-          up = 10;
-          left = 10;
-          theDuck.style.top = up+"%";
-          theDuck.style.left = left+"%";
-          }         
-          
-        } else {
-          checkWinner();          
-        }
-      }
-      function checkWinner() {
-        if (scoreDuck > scoreHunter) {
-            alert("Game over! Duck win!");
-          } else if (scoreDuck < scoreHunter) {
-            alert("Game over! Hunter win!");
-          };
-          scoreDuck = 0;
-          scoreHunter = 0;
-          document.querySelector("#playerHunter p").innerText = scoreHunter;
-          document.querySelector("#playerDuck p").innerText = scoreDuck;
-        };
+//New Game - with new players
+function newGame() {
+  document.querySelector("#playerDuck h2").innerText = "";
+  document.querySelector("#playerHunter h2").innerText = "";
+  document.querySelector("#playerDuck p").innerText = "score";
+  document.querySelector("#playerHunter p").innerText = "score";
+  inputNames();
+}
 
-      function moveDuck(event) {
-        switch(event.code){
-            case "ArrowDown" :
-                moveDuckDown();
-                break;
+//Starts the first ROUND and
+//Restart  round of game (ONE of FIVE)
+function startRound() {
+  up = 10;
+  left = 10;
+  theDuck.style.top = up + "%";
+  theDuck.style.left = left + "%";
+  theDuck.style.border = "2px solid green";
+  clearInterval(moveTimer);
+  matchCount = scoreDuck + scoreHunter;
+  if ((matchCount < 5) && (scoreDuck != 3) && (scoreHunter != 3)) {
+    if (emptyName) {
+      theDuck.addEventListener("click", paintBorderRed);
+      myTimer = setTimeout(duckVictory, 5000);
+      moveTimer = setInterval(moveDuckRandom, 500);
+    } else {
+      enablePlayers();
+      myTimer = setTimeout(duckVictory, 5000);
+    };
+  } else {
+    checkWinner();
+  };
+}
+function checkWinner() {
+  if (scoreDuck > scoreHunter) {
+    alert("Game over! Duck win  " + scoreDuck + ":" + scoreHunter + "!");
+  } else if (scoreDuck < scoreHunter) {
+    alert("Game over! Hunter win  " + scoreDuck + ":" + scoreHunter + "!");
+  };
+  scoreDuck = 0;
+  scoreHunter = 0;
+  document.querySelector("#playerHunter p").innerText = scoreHunter;
+  document.querySelector("#playerDuck p").innerText = scoreDuck;
+  clearInterval(moveTimer);
+  up = 10;
+  left = 10;
+  theDuck.style.top = up + "%";
+  theDuck.style.left = left + "%";
+};
 
-            case "ArrowUp" :
-                moveDuckUp();
-                break;
+function moveDuckRandom() {
+  let randomStep = Math.floor(Math.random() * 4);
+  let randomLength=Math.floor(Math.random()*10);
+  if (randomStep == 0) {
+    for (let i=0;i<randomLength;i++) {
+      moveDuckUp();
+    }   
+  };
+  if (randomStep == 1) {
+    for (let i=0;i<randomLength;i++) {
+      moveDuckRight();
+    }
+  };
+  if (randomStep == 2) {
+    for (let i=0;i<randomLength;i++) {
+      moveDuckDown();
+    }
+  };
+  if (randomStep == 3) {
+    for (let i=0;i<randomLength;i++) {
+      moveDuckLeft();
+    }
+  };
+}
 
-            case "ArrowLeft" :
-                moveDuckLeft();
-                break;
 
-            case "ArrowRight" :
-                moveDuckRight();
-                break;
-        }
-      }
+function moveDuck(event) {
+  switch (event.code) {
+    case "ArrowDown":
+      moveDuckDown();
+      break;
 
-      function moveDuckRandom(){
-        console.log("MErde");
-        for (let i=0; i<100;i++) {
-          console.log(i);
-          let changeUp=Math.round(Math.random());
-          let changeLeft=Math.round(Math.random());
-          console.log(changeUp,changeLeft);
-          if (changeUp==0){changeUp=-1};
-          if (changeLeft==0){changeLeft=-1};
-          duck.style.left=left+changeLeft+"%";
-          duck.style.top=up+changeUp+"%";
-        }
-      }
-      
-      function moveDuckLeft() {
-        if (left > 0) {
-          left = left - 1;
-        } else {
-          left = 90;
-        }
-        duck.style.left = left + "%";
-      }
-      function moveDuckRight() {
-        if (left < 90) {
-          left = left + 1;
-        } else {
-          left = 0;
-        }
-        duck.style.left = left + "%";
-      }
-      function moveDuckDown() {
-        if (up < 90) {
-          up = up + 1;
-        } else {
-          up = 0;
-        }
-        duck.style.top = up + "%";
-      }
-      function moveDuckUp() {
-        if (up > 0) {
-          up = up - 1;
-        } else {
-          up = 90;
-        }
-        duck.style.top = up + "%";
-      }
+    case "ArrowUp":
+      moveDuckUp();
+      break;
 
-      // Function for Hunter victory
-      function kill() {
-        theDuck.style.backgroundColor = "red";
-        disablePlayers();
-        alert("Hunter wins!");
-        scoreHunter = scoreHunter + 1;
-        console.log(scoreHunter);
-        document.querySelector("#duck").style.border="2px solid red";
-        document.querySelector("#playerHunter p").innerText = scoreHunter;
-        clearTimeout(myTimer);
-      }
-      // Duck Victory functions. disables input and enables alert
-      function duckVictory() {
-        alert("Duck wins!");
-        disablePlayers();
-        theDuck.style.backgroundColor = "green";
-        scoreDuck = scoreDuck + 1;
-        document.querySelector("#playerDuck p").innerText = scoreDuck;
-        clearTimeout(myTimer);
-      }
-      // Disable and enable player inputs
-      function disablePlayers() {
-        theDuck.removeEventListener("click", kill);
-        document.removeEventListener("keydown", moveDuck);
-      }
+    case "ArrowLeft":
+      moveDuckLeft();
+      break;
 
-      function enablePlayers() {
-        theDuck.addEventListener("click", kill);
-        document.addEventListener("keydown", moveDuck);
-      }
+    case "ArrowRight":
+      moveDuckRight();
+      break;
+  }
+}
 
-      //names of players
-      function inputNames() {
-        const nameDuck = prompt("The first player (the duck) is ...");
-        document.querySelector("#playerDuck h2").innerText = nameDuck;
-        const nameHunter = prompt("The second player (the Hunter) is ...");
-        if(nameDuck==""){
-            console.log(nameDuck);           
-          }else{
-          emptyName=false;
-          console.log("2 players");
-        }
-        document.querySelector("#playerHunter h2").innerText = nameHunter;
-        document.querySelector("#playerHunter p").innerText = 0;
-        document.querySelector("#playerDuck p").innerText = 0;
-      }
+
+
+function moveDuckLeft() {
+  if (left > 0) {
+    left = left - 1;
+  } else {
+    left = 90;
+  }
+  duck.style.left = left + "%";
+}
+function moveDuckRight() {
+  if (left < 90) {
+    left = left + 1;
+  } else {
+    left = 0;
+  }
+  duck.style.left = left + "%";
+}
+function moveDuckDown() {
+  if (up < 90) {
+    up = up + 1;
+  } else {
+    up = 0;
+  }
+  duck.style.top = up + "%";
+}
+function moveDuckUp() {
+  if (up > 0) {
+    up = up - 1;
+  } else {
+    up = 90;
+  }
+  duck.style.top = up + "%";
+}
+
+function paintBorderRed() {
+  theDuck.style.border = "2px solid red";
+  kill();
+}
+// Function for Hunter victory
+function kill() {
+  scoreHunter = scoreHunter + 1;
+  document.querySelector("#playerHunter p").innerText = scoreHunter;
+  matchCount = scoreDuck + scoreHunter;
+  if ((matchCount == 5) || (scoreDuck == 3) || (scoreHunter == 3)) {
+    checkWinner();
+  } else {
+    disablePlayers();
+    alert("Duck killed");
+
+  }
+}
+// Duck Victory functions. disables input and enables alert
+function duckVictory() {
+  theDuck.style.border = "2px solid green";
+  scoreDuck = scoreDuck + 1;
+  document.querySelector("#playerDuck p").innerText = scoreDuck;
+  matchCount = scoreDuck + scoreHunter;
+  if ((matchCount == 5) || (scoreDuck == 3) || (scoreHunter == 3)) {
+    checkWinner();
+  } else {
+    disablePlayers();
+    alert("Hunter lost");
+
+  }
+}
+// Disable and enable player inputs
+function disablePlayers() {
+  up = 10;
+  left = 10;
+  theDuck.style.top = up + "%";
+  theDuck.style.left = left + "%";
+  theDuck.removeEventListener("click", kill);
+  document.removeEventListener("keydown", moveDuck);
+  clearInterval(moveTimer);
+  clearInterval(stepTimer);
+  clearTimeout(myTimer);
+}
+
+function enablePlayers() {
+  theDuck.addEventListener("click", paintBorderRed);
+  document.addEventListener("keydown", moveDuck);
+  up = 10;
+  left = 10;
+  theDuck.style.top = up + "%";
+  theDuck.style.left = left + "%";
+}
