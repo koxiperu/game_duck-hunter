@@ -51,7 +51,8 @@ function startRound() {
     if (emptyName) {
       theDuck.addEventListener("click", paintBorderRed);
       myTimer = setTimeout(duckVictory, 5000);
-      moveTimer = setInterval(moveDuckRandom, 500);
+      // moveTimer = setInterval(moveDuckRandom, 500);
+      moveDuckRandom();
     } else {
       enablePlayers();
       myTimer = setTimeout(duckVictory, 5000);
@@ -83,22 +84,26 @@ function moveDuckRandom() {
   if (randomStep == 0) {
     for (let i=0;i<randomLength;i++) {
       moveDuckUp();
-    }   
+    };
+    moveDuckRandom();   
   };
   if (randomStep == 1) {
     for (let i=0;i<randomLength;i++) {
       moveDuckRight();
-    }
+    };
+    moveDuckRandom();  
   };
   if (randomStep == 2) {
     for (let i=0;i<randomLength;i++) {
       moveDuckDown();
-    }
+    };
+    moveDuckRandom();  
   };
   if (randomStep == 3) {
     for (let i=0;i<randomLength;i++) {
       moveDuckLeft();
-    }
+    };
+    moveDuckRandom();  
   };
 }
 
